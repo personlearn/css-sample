@@ -1,0 +1,143 @@
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <form>
+        <fieldset class="todo-list">
+            <legend class="todo-list__title">My Special Todo List</legend>
+            <label class="todo-list__label">
+                <input type="checkbox" name="" id="" />
+                <i class="check"></i>
+                <span>Make awesome CSS animation</span>
+            </label>
+            <label class="todo-list__label">
+                <input type="checkbox" name="" id="" />
+                <i class="check"></i>
+                <span>Watch awesome bangumi</span>
+            </label>
+            <label class="todo-list__label">
+                <input type="checkbox" name="" id="" />
+                <i class="check"></i>
+                <span>Encounter awesome people</span>
+            </label>
+            <label class="todo-list__label">
+                <input type="checkbox" name="" id="" />
+                <i class="check"></i>
+                <span>Be an awesome man</span>
+            </label>
+        </fieldset>
+    </form>
+</body>
+<style>
+    @import url(../font-Lato.css);
+    body{
+        display: flex;
+        /* 
+        设为Flex布局以后，子元素的float、clear和vertical-align属性将失效,
+        align-items 水平居中基准线
+        flex可以用于块级元素，也可用于行内元素
+        flex-wrap 容器内元素的换行(默认不换行)
+        flex-direction 容器内元素的排列方向(默认横向排列)
+        justify-content：元素排列方式
+        align-content 在弹性容器内的元素没有占用交叉轴上所有可用的空间时对齐容器内的各项（垂直）
+        */
+        /* 
+        flex items相关属性 
+        order 决定 flex item的排列顺序 值越小 越靠前
+        align-self 改变某一个flex item在 cross axis上的对齐方式
+        flex-grow 默认值0 当一行flex item占不满整个flex container宽度时 可以使用 flex-grow增长
+        flex-shrink 默认值1 当一行flex-items宽度超出flex-container最大宽度时，进行收缩、
+        flex-basis 设置flex-item的宽度
+        */
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* vh是CSS中的一个相对长度单位，代表视口高度（viewport height）。它表示视口高度的百分比 */
+        background: #1A1E23;
+    }
+
+    .todo-list{
+        display: flex;
+        flex-direction: column;
+        padding: 0 75px 10px 30px;
+        background: #162740;
+        border: transparent; /* 透明边框 */
+    }
+
+    .todo-list .todo-list__title{  /* div p{} 后代选择器(以空格分隔)：用于选取某元素的后代元素 */
+        padding: 3px 6px;
+        color: #f1faee;
+        background-color: #264456;
+    }
+
+    .todo-list .todo-list__label {
+        display: flex;
+        align-items: center;
+        margin: 40px 0;  /* 针对label标签 */
+        font-family: Lato, sans-serif;
+        font-size: 24px;
+        color: #f1faee;
+        cursor: pointer;  /*改变光标样式，当前样式为手指形式*/
+    }
+
+    /* 先将checkbox本身的样式隐藏 */
+    .todo-list .todo-list__label input[type=checkbox] {
+        opacity: 0;  /* 设置元素不透明度，默认是1  从 0.0 （完全透明）到 1.0（完全不透明） */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none; /* appearance 属性允许您使元素看上去像标准的用户界面元素 appearance: normal|icon|window|button|menu|field; */
+    }
+    
+    /* 自定义复选框未选择时样式 */
+    .todo-list .todo-list__label input[type=checkbox]+.check { /* div+p{} 相邻兄弟选择器，选择相邻的第一个元素 */
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        border: 2px solid #f1faee;
+        transition: 0.2s; /* 过渡效果，配合伪类样式变换的动画效果。 transition-property：设置元素中参与过渡的属性； transition-duration：设置元素过渡的持续时间；transition-timing-function：设置元素过渡的动画类型；transition-delay：设置过渡效果延迟的时间，默认为 0； */
+    }
+    
+    /* 自定义复选框选中时样式为√ */
+    .todo-list .todo-list__label input[type=checkbox]:checked+.check {
+        width: 25px;
+        height: 15px;
+        border-top: transparent;  
+        border-right: transparent;  /* 将上边框和右边框透明，并改变长宽，使得更像一个√ */
+        transform: rotate(-45deg); /* CSS变换：平移、旋转、缩放和倾斜。移动 translate(x, y)，缩放 scale(x, y) 旋转 rotate(deg) 倾斜 skew(deg, deg) */
+    }
+    
+    /* 设置复选框未选择时文本样式 */
+    .todo-list .todo-list__label input[type=checkbox]~span { /* 通用兄弟选择器：选择E元素之后的所有兄弟元素F，作用于多个元素，用~隔开 */
+        position: relative;
+        left: 40px;
+        white-space: nowrap;  /* 文本不会换行，文本会在在同一行上继续，直到遇到 <br> 标签为止 */
+        transition: 0.5s;
+    }
+
+    .todo-list .todo-list__label input[type=checkbox]~span::before { /* CSS3为了区分伪类和伪元素，伪元素采用双冒号写法 ::before和::after下特有的content，用于在css渲染中向元素头部或尾部添加内容 */
+        position: absolute;
+        content: "";
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: #f1faee; /* 设置文字中间的横杠，用高度1px白色background来实现 */
+        transform: scaleX(0); /* CSS变换：缩放。缩放 scale(x, y) 小于1的为缩小，大于1为放大 */
+        transform-origin: right; /* transform-origin设置变换中心点，横杠从右边消失 */
+        transition: transform 0.5s; /* 过渡效果为0.5s  transition-property 和 transition-duration 为必填参数 */
+    }
+
+    .todo-list .todo-list__label input[type=checkbox]:checked~span {
+        color: #585b57;
+    }
+
+    .todo-list .todo-list__label input[type=checkbox]:checked~span::before {
+        transform: scaleX(1);
+        transform-origin: left;  /* transform-origin设置变换中心点，横杠从左边生成 */
+    }
+
+</style>
+
+</html>

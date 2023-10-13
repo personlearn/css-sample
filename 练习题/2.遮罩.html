@@ -1,0 +1,150 @@
+<html>
+
+<head></head>
+
+<body>
+    <input type="checkbox" id="burger-toggle">
+    <label for="burger-toggle" class="burger-menu">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </label>
+    <div class="overlay"></div>
+</body>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        background: #ECEFFC;
+    }
+
+    #burger-toggle {
+        appearance: none;
+        /* appearance 属性允许您使元素看上去像标准的用户界面元素,移除标准界面元素 */
+        opacity: 0;
+        /* 完全透明 */
+    }
+    
+    /* 放大160倍形成遮罩 */
+    #burger-toggle:checked~.overlay {
+        opacity: 1;
+        /* 完全不透明 */
+        transform: scale(160);
+        /* 缩放160倍 小于1的表示缩小 scale(x, y) */
+    }
+
+    #burger-toggle:checked~.burger-menu .line:nth-child(1) {
+        /* calc() 函数用于动态计算长度值 需要注意的是，运算符前后都需要保留一个空格，例如：width: calc(100% - 10px)；需要注意的是，运算符前后都需要保留一个空格，例如：width: calc(100% - 10px)；calc()函数支持 "+", "-", "*", "/" 运算；calc()函数使用标准的数学运算优先级规则； */
+        /* Y轴平移并旋转 */
+        transform: translateY(calc(var(--burger-menu-radius) / 5)) rotate(45deg);
+    }
+
+    #burger-toggle:checked~.burger-menu .line:nth-child(2) {
+        transform: scaleX(0);
+    }
+
+    #burger-toggle:checked~.burger-menu .line:nth-child(3) {
+        transform: translateY(calc(var(--burger-menu-radius) / -5)) rotate(-45deg);
+    }
+
+    .burger-menu {
+        --burger-menu-radius: 4em;
+        position: relative;
+        z-index: 100;
+        display: block;
+        width: var(--burger-menu-radius);
+        height: var(--burger-menu-radius);
+        background: white;
+        border: solid 2px rgba(149, 166, 167, 0.4);
+        border-radius: 50%;
+        outline: none;
+        cursor: pointer;
+        /* 过渡效果 transition-duration:0.5s transition-timing-function:ease-in-out 
+        过渡的动画类型:
+        ease-in-out 相对于匀速，（开始和结束都慢）两头慢
+        ease-out:相对于匀速，开始时快，结束时候间慢
+        ease-in:相对于匀速，开始的时候慢，之后快
+        ease:相对于匀速，中间快，两头慢
+        linear:linear
+        */
+        transition: 0.5s ease-in-out;
+    }
+
+    .burger-menu .line {
+        position: absolute;
+        left: 25%;
+        width: 50%;
+        height: 3px;
+        background: rgba(43, 61, 79, 0.3);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: all 0.5s ease;
+    }
+
+    .burger-menu .line:nth-child(1) {
+        top: 30%;
+    }
+
+    .burger-menu .line:nth-child(2) {
+        top: 50%;
+    }
+
+    .burger-menu .line:nth-child(3) {
+        top: 70%;
+    }
+    
+    /* 设置三横杠的颜色，初始值为平移出可见区域 */
+    .burger-menu .line::after {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #2980b9;
+        transform: translateX(-100%);
+        transition: all 0.25s ease;
+    }
+    
+    /* 将三横杠的动态延迟 */
+    .burger-menu .line:nth-child(2)::after {
+        transition-delay: 0.1s;
+    }
+
+    .burger-menu .line:nth-child(3)::after {
+        transition-delay: 0.2s;
+    }
+    
+    /* 阴影
+       box-shadow 属性接受值最多由五个不同的部分组成。
+       box-shadow: offset-x X轴偏移量 offset-y Y轴偏移量 blur阴影模糊半径 spread 阴影扩展半径 color阴影颜色 position投影方式;
+    */
+    .burger-menu:hover {
+        box-shadow: 0.4px 0.4px 0.8px rgba(0, 0, 0, 0.042), 1px 1px 2px rgba(0, 0, 0, 0.061), 1.9px 1.9px 3.8px rgba(0, 0, 0, 0.075), 3.4px 3.4px 6.7px rgba(0, 0, 0, 0.089), 6.3px 6.3px 12.5px rgba(0, 0, 0, 0.108), 15px 15px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* 将三横杠的显示 */
+    .burger-menu:hover .line::after {
+        transform: translateX(0);
+    }
+    
+    .overlay {        
+        position: absolute;
+        /* 浏览器默认字体是16px,em相对单位，基准点为父节点字体的大小 */
+        width: 2em;
+        height: 2em;
+        background: rgba(40, 127, 184, 0.9);
+        border-radius: 50%;
+        opacity: 0;
+        transition: 0.5s ease-in-out;
+        will-change: transform;
+    }
+
+</style>
+
+
+</html>
