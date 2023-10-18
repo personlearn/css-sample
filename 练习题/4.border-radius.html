@@ -3,6 +3,7 @@
 <head></head>
 
 <body>
+    <!-- 导航标签 一般配合ul li使用 -->
     <nav class="navtab">
         <ul>
             <li class="navtab-item active">
@@ -44,4 +45,128 @@
         </ul>
     </nav>
 </body>
+<style>
+    @import url(../font-Lato.css);
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: Lato, sans-serif;
+        background: #ECEFFC;
+    }
+
+    .navtab {
+        --navtab-width: 600px;
+        --navtab-item-width: calc(var(--navtab-width) / 4 - 20px);
+        --navtab-overlay-width: calc(var(--navtab-item-width) + 80px);
+        --active-index: 0;
+        position: relative;
+        width: var(--navtab-width);
+        height: 150px;
+        background: white;
+        border: 1em solid white;
+        border-radius: 5% 5% 15% 15%/15% 15% 50% 50%;
+        /*
+        BFC 即 Block Formatting Contexts (块级格式化上下文)，它属于普通流
+        具有 BFC 特性的元素可以看作是隔离了的独立容器，容器里面的元素不会在布局上影响到外面的元素，并且 BFC 具有普通容器所没有的一些特性
+        同一个 BFC 下外边距会发生折叠、BFC 可以包含浮动的元素（清除浮动）、BFC 可以阻止元素被浮动元素覆盖
+        可以利用overflow: hidden或zoom：1将元素变为BFC
+        只要元素满足下面任一条件即可触发 BFC 特性：
+        根元素（<html>）
+        浮动元素（元素的 float 不是 none）
+        绝对定位元素（元素的 position 为 absolute 或 fixed）
+        行内块元素（元素的 display 为 inline-block）
+        表格单元格（元素的 display 为 table-cell，HTML表格单元格默认为该值）
+        表格标题（元素的 display 为 table-caption，HTML表格标题默认为该值）
+        匿名表格单元格元素（元素的 display 为 table、table-row、 table-row-group、 table-header-group、table-footer-group（分别是HTML table、row、tbody、thead、tfoot 的默认属性）或 inline-table）
+        overflow 值不为 visible 的块元素
+        display 值为 flow-root 的元素
+        contain 值为 layout、content 或 paint 的元素(这个属性Firefox不支持)
+        弹性元素（display 为 flex 或 inline-flex 元素的直接子元素）
+        网格元素（display 为 grid 或 inline-grid 元素的直接子元素）
+        多列容器（元素的 column-count 或 column-width 不为 auto，包括 column-count 为 1）
+        column-span 为 all 的元素始终会创建一个新的BFC，即使该元素没有包裹在一个多列容器中（标准变更，Chrome bug）。
+
+        overflow:
+        visible: 默认值。内容不会回修剪，可以呈现在元素框之外。
+        hidden: 如果内容超出父级容器，超出部分将会被隐藏
+        scroll: 无论是否超出容器，都会出现一个滚动条。
+        auto: 如果没有超出容器的显示，将会正常显示，如果超出，将会出现一个滚动条
+        */
+        overflow: hidden;
+    }
+
+    /*利用display：flex 的flex-direction默认横向排列，将li横向展示*/
+    /*利用display：flex 的将块状元素、行内元素全部统一为flex元素*/
+    .navtab ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+
+    .navtab ul .navtab-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+        flex-direction: column;
+        width: var(--navtab-item-width);
+        height: 100%;
+        color: #0288d1;
+        cursor: pointer;
+        transition: 0.5s ease;
+    }
+
+    .navtab ul .navtab-item svg {
+        transition: 0.5s ease;
+    }
+
+    .navtab ul .navtab-item span {
+        font-size: 20px;
+        /* user-select 属性规定是否能选取元素的文本。在web浏览器中，如果您在文本上双击，文本会被选取或高亮显示。此属性用于阻止这种行为 */
+        user-select: none;
+        opacity: 0;
+        transition: 0.5s ease;
+    }
+
+    .navtab ul .navtab-item.active svg {
+        transform: translateY(-10px);
+    }
+
+    .navtab ul .navtab-item.active span {
+        opacity: 1;
+    }
+
+    .navtab::after {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: var(--navtab-overlay-width);
+        background: #b3e5fc;
+        border-radius: 20px;
+        transform: translateX(calc(var(--navtab-item-width) * var(--active-index)));
+        transition: 0.5s ease;
+    }
+
+</style>
+<script>
+    "use strict";
+    let navtab = document.querySelector("nav.navtab");
+    let navtabItems = document.querySelectorAll("li.navtab-item");
+    navtabItems.forEach((navtabItem, activeIndex) => navtabItem.addEventListener("click", () => {
+        navtabItems.forEach(navtabItem => navtabItem.classList.remove("active"));
+        navtabItem.classList.add("active");
+        navtab.style.setProperty("--active-index", `${activeIndex}`);
+    }));
+
+</script>
 </html>

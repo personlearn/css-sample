@@ -1,0 +1,350 @@
+<html>
+
+<head></head>
+
+<body>
+  <!-- dialog 是HTML5新增的语义化双标签，用于展示一个交互式的模态对话框
+  属性 open 用于控制模态框的显隐，即含有open属性就显示，否则隐藏
+       returnValue 保留close方法传入的参数
+  方法 show() 显示模态框，对其添加open属性
+       showModel() 显示模态框，对其添加open属性并且显示遮罩框，同时监控按键ESC（按下即关闭）。
+       close() 关闭模态框，删除其open属性，同时将close方法参数保留至dialog.returnValue属性上
+  事件 close 当模态框关闭时触发
+       cancel 当按下ESC关闭模态框时触发 -->
+  <dialog id="confirm-modal" class="modal">
+    <div class="modal-content">
+      <svg t="1574164208713" class="model-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+        p-id="5819" width="63" height="63">
+        <path
+          d="M512 0C230.4 0 0 230.4 0 512s230.4 512 512 512 512-230.4 512-512S793.6 0 512 0zM512 877.714286c-40.228571 0-73.142857-32.914286-73.142857-73.142857s32.914286-73.142857 73.142857-73.142857 73.142857 32.914286 73.142857 73.142857S552.228571 877.714286 512 877.714286zM585.142857 512c0 40.228571-32.914286 73.142857-73.142857 73.142857s-73.142857-32.914286-73.142857-73.142857L438.857143 219.428571c0-40.228571 32.914286-73.142857 73.142857-73.142857s73.142857 32.914286 73.142857 73.142857L585.142857 512z"
+          p-id="5820" fill="white"></path>
+      </svg>
+      <h2 class="modal-title">Are you sure?</h2>
+      <p class="modal-description">
+        You can't undo this action.
+      </p>
+      <div class="modal-options">
+        <button class="btn btn-round btn-fill btn-fill-left option confirm" data-text="Yes"
+          onclick="document.querySelector('#confirm-modal').close()"></button>
+        <button class="btn btn-round btn-fill btn-fill-right option cancel" data-text="No"
+          onclick="document.querySelector('#confirm-modal').close()"></button>
+      </div>
+    </div>
+  </dialog>
+  <form action="javascript:void(0);">
+    <button class="btn btn-danger" onclick="document.querySelector('#confirm-modal').showModal()">
+      Delete history
+    </button>
+  </form>
+
+</body>
+<style>
+  @import url(../font-Lato.css);
+
+  :root {
+    --primary-color: hsl(171, 100%, 41%);
+    --success-color: hsl(141, 53%, 53%);
+    --danger-color: hsl(348, 86%, 61%);
+  }
+
+  body {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    font-family: Lato, sans-serif;
+    background: #ECEFFC;
+  }
+
+  .btn {
+    position: relative;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #212121;
+    text-decoration: none;
+    background-color: white;
+    /* 透明边框 */
+    border: transparent;
+    border-radius: 3px;
+    outline: transparent;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+    transition: 0.25s;
+  }
+
+  .btn-danger {
+  color: white;
+  background-color: var(--danger-color);
+}
+
+.btn-danger:hover {
+  background-color: #ee2049;
+}
+
+.btn-round {
+  border-radius: 30px;
+}
+
+.btn-fill {
+  overflow: hidden;
+}
+
+.btn-fill-left::before {
+  transform: translateX(100%);
+}
+
+.btn-fill-right::before {
+  transform: translateX(-100%);
+}
+
+.btn-fill::before {
+  position: absolute;
+  content: "";
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  /*cubic-bezier()函数是三次方贝塞尔曲线函数，
+    在CSS的cubic-bezier()函数中，起点和终点的坐标是固定的，分别是(0,0)和(1,1)，因此，cubic-bezier()函数支持的参数值只有4个，代表了两个控制点的坐标
+  */
+  transition: 0.4s cubic-bezier(0.75, 0, 0.25, 1);
+}
+
+.btn-fill::after {
+  position: relative;
+  /*attr() 函数返回选择元素的属性值*/
+  content: attr(data-text);
+  transition: 0.4s ease;
+}
+
+.btn-fill:hover::before {
+  transform: translateX(0);
+}
+.btn-fill:hover::after {
+  color: white !important;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  color: white;
+  /* linear-gradient() 函数用于创建一个表示两种或多种颜色线性渐变的图片 */
+  background-image: linear-gradient(to right, #0acffe 0%, #495aff 100%);
+  border: transparent;
+  border-radius: 12px;
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.02), 0 6.7px 5.3px rgba(0, 0, 0, 0.028), 0 12.5px 10px rgba(0, 0, 0, 0.035), 0 22.3px 17.9px rgba(0, 0, 0, 0.042), 0 41.8px 33.4px rgba(0, 0, 0, 0.05), 0 100px 80px rgba(0, 0, 0, 0.07);
+  /* CSS Webkit是一种针对webkit浏览器（Safari和Chrome浏览器）的CSS扩展 */
+  -webkit-animation: show-modal 0.5s ease forwards;
+          animation: show-modal 0.5s ease forwards;
+}
+
+/* ::backdrop伪元素就是控制需要视觉聚焦的元素后面的背景元素样式的 */
+.modal::-webkit-backdrop {
+  background: rgba(0, 0, 0, 0.4);
+  /* backdrop-filter CSS 属性可以让你为一个元素后面区域添加图形效果（如模糊或颜色偏移）。
+    因为它适用于元素背后的所有元素，为了看到效果，必须使元素或其背景至少部分透明 */
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
+}
+.modal::backdrop {
+  background: rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
+}
+
+.modal .model-icon {
+  margin-bottom: 1.25rem;
+  opacity: 0;
+  -webkit-animation: show-modal-icon 0.5s ease 0.2s forwards;
+          animation: show-modal-icon 0.5s ease 0.2s forwards;
+}
+
+.modal .modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  padding: 1em;
+}
+
+.modal .modal-content .modal-title {
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+  opacity: 0;
+  -webkit-animation: show-modal-text 0.5s ease 0.35s forwards;
+          animation: show-modal-text 0.5s ease 0.35s forwards;
+}
+
+.modal .modal-content .modal-description {
+  margin: 0;
+  opacity: 0;
+  -webkit-animation: show-modal-text 1s ease 0.5s forwards;
+          animation: show-modal-text 1s ease 0.5s forwards;
+}
+
+.modal .modal-content .modal-options {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.modal .modal-content .modal-options .option {
+  padding: 0 2em;
+  margin: 0.3em;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 2;
+}
+
+.modal .modal-content .modal-options .confirm {
+  opacity: 0;
+  -webkit-animation: show-modal-option 0.5s ease 0.65s forwards;
+          animation: show-modal-option 0.5s ease 0.65s forwards;
+}
+
+.modal .modal-content .modal-options .confirm::before {
+  background: var(--success-color);
+}
+
+.modal .modal-content .modal-options .confirm::after {
+  color: var(--success-color);
+}
+
+.modal .modal-content .modal-options .cancel {
+  opacity: 0;
+  -webkit-animation: show-modal-option 0.5s ease 0.8s forwards;
+          animation: show-modal-option 0.5s ease 0.8s forwards;
+}
+
+.modal .modal-content .modal-options .cancel::before {
+  background: var(--danger-color);
+}
+
+.modal .modal-content .modal-options .cancel::after {
+  color: var(--danger-color);
+}
+
+@-webkit-keyframes show-modal {
+  from {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes show-modal {
+  from {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes show-modal-icon {
+  from {
+    transform: scale(0.4);
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes show-modal-icon {
+  from {
+    transform: scale(0.4);
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes show-modal-text {
+  from {
+    transform: scale(0.6);
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes show-modal-text {
+  from {
+    transform: scale(0.6);
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes show-modal-option {
+  from {
+    transform: scale(0.4);
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes show-modal-option {
+  from {
+    transform: scale(0.4);
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+</style>
+
+</html>

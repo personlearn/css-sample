@@ -96,7 +96,8 @@
         width: 25px;
         height: 25px;
         border: 2px solid #f1faee;
-        transition: 0.2s; /* 过渡效果，配合伪类样式变换的动画效果。 transition-property：设置元素中参与过渡的属性； transition-duration：设置元素过渡的持续时间；transition-timing-function：设置元素过渡的动画类型；transition-delay：设置过渡效果延迟的时间，默认为 0； */
+        /* 过渡效果，配合伪类样式变换的动画效果。 transition-property：设置元素中参与过渡的属性； transition-duration：设置元素过渡的持续时间；transition-timing-function：设置元素过渡的动画类型；transition-delay：设置过渡效果延迟的时间，默认为 0； */
+        transition: 0.2s; 
     }
     
     /* 自定义复选框选中时样式为√ */
@@ -104,19 +105,23 @@
         width: 25px;
         height: 15px;
         border-top: transparent;  
-        border-right: transparent;  /* 将上边框和右边框透明，并改变长宽，使得更像一个√ */
-        transform: rotate(-45deg); /* CSS变换：平移、旋转、缩放和倾斜。移动 translate(x, y)，缩放 scale(x, y) 旋转 rotate(deg) 倾斜 skew(deg, deg) */
+        /* 将上边框和右边框透明，并改变长宽，使得更像一个√ */
+        border-right: transparent;  
+        /* CSS变换：平移、旋转、缩放和倾斜。移动 translate(x, y)，缩放 scale(x, y) 旋转 rotate(deg) 倾斜 skew(deg, deg) */
+        transform: rotate(-45deg); 
     }
     
     /* 设置复选框未选择时文本样式 */
-    .todo-list .todo-list__label input[type=checkbox]~span { /* 通用兄弟选择器：选择E元素之后的所有兄弟元素F，作用于多个元素，用~隔开 */
+    /* 通用兄弟选择器：选择E元素之后的所有兄弟元素F，作用于多个元素，用~隔开 */
+    .todo-list .todo-list__label input[type=checkbox]~span { 
         position: relative;
         left: 40px;
         white-space: nowrap;  /* 文本不会换行，文本会在在同一行上继续，直到遇到 <br> 标签为止 */
         transition: 0.5s;
     }
-
-    .todo-list .todo-list__label input[type=checkbox]~span::before { /* CSS3为了区分伪类和伪元素，伪元素采用双冒号写法 ::before和::after下特有的content，用于在css渲染中向元素头部或尾部添加内容 */
+    
+    /* CSS3为了区分伪类和伪元素，伪元素采用双冒号写法 ::before和::after下特有的content，用于在css渲染中向元素头部或尾部添加内容 */
+    .todo-list .todo-list__label input[type=checkbox]~span::before { 
         position: absolute;
         content: "";
         top: 50%;
